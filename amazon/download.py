@@ -57,11 +57,11 @@ def main():
         if not file.lower().startswith(file_start_withs):
             continue
 
-        filename = file[len(file_start_withs):]
+        file_name = file[len(file_start_withs):]
         if file_name in ignores or file_name.replace(".jsonl","") in ignores:
             continue
 
-        plans[filename] = file
+        plans[file_name] = file
 
     print("Plan to download:")
     for file_name, link in plans.items():
