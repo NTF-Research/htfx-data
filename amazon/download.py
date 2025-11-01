@@ -3,6 +3,23 @@ from colorama import init, Fore, Style # type: ignore
 from huggingface_hub import list_repo_files, hf_hub_download
 import shutil
 
+
+def get_ignores() -> list[str]:
+    ignore_file = os.path.join(os.path.dirname(os.path.abspath(__file__)),"ignore_download.txt")
+    if not os.path.exists(ignore_file):
+        return []
+    
+    ignore_files = []
+    try:
+        with open(ignore_file,"r", encoding="utf-8") as f:
+            for line in f:
+                if line:
+                    ignore_files.append(line.strip())
+
+    except Exception as e:
+        pass
+    return ignore_files
+
 def remove_temp(jsonl_dir):
     # Remove cache folders
     need_remove_dirs = [
@@ -31,6 +48,8 @@ def main():
     jsonl_dir = os.path.join(base_dir,"jsonls")
     os.makedirs(jsonl_dir, exist_ok=True)
     
+    ignores = get_ignores()
+
     plans = {}
 
     file_start_withs = "raw/meta_categories/meta_"
@@ -39,6 +58,9 @@ def main():
             continue
 
         filename = file[len(file_start_withs):]
+        if file_name in ignores or file_name.replace(".jsonl","") in ignores:
+            continue
+
         plans[filename] = file
 
     print("Plan to download:")
