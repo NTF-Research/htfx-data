@@ -18,6 +18,7 @@ def create_db(path):
                 item_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 main_category TEXT NOT NULL,
+                sub_category TEXT NOT NULL,
                 features TEXT NOT NULL,
                 description TEXT NOT NULL,
                 image TEXT NOT NULL
@@ -36,8 +37,8 @@ def save_to_db(path, data):
     cursor = conn.cursor()
     cursor.executemany("""
         INSERT INTO Products 
-        (title, main_category, features, description, image) 
-        VALUES (:title, :main_category, :features, :description, :image)""", 
+        (title, main_category, sub_category, features, description, image) 
+        VALUES (:title, :main_category, :sub_category, :features, :description, :image)""", 
         data)
     conn.commit()
     conn.close()
