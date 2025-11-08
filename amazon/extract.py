@@ -58,7 +58,7 @@ def main():
     create_db(os.path.join(output_dir,"Amazon Products Ex.db"))
 
     input_text = input("Enter number of item for each category (default 20000): ")
-    min_item = 200
+    min_item = 400
     max_item = 20000
     try:
         max_item = int(input_text)
